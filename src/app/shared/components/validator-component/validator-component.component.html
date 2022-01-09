@@ -1,0 +1,4 @@
+<ng-content></ng-content>
+<div *ngIf="formControl.invalid && (formControl.dirty||formControl.touched)">
+    <span class="badge bg-danger">{{ error_msg }}</span>
+</div>

@@ -1,0 +1,106 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-table" style="padding-right: 5px;"></i>Cliente
+            </div>
+            <div class="card-body">
+                <form class="row g-3" [formGroup]="formularioCliente" (submit)="gravar()">
+                    <div class="col-md-12" validator>
+                        <label for="nomeEmpresa" class="form-label">Nome Empresa</label>
+                        <input formControlName="nomeEmpresa" class="form-control" id="nomeEmpresa">
+                    </div>
+                    <div class="col-md-6" validator>
+                        <label for="cnpj" class="form-label">CNPJ</label>
+                        <input formControlName="cnpj" class="form-control" id="cnpj" mask="00.000.000/0000-00"
+                            [showMaskTyped]="true">
+                    </div>
+                    <div class="col-6" validator>
+                        <label for="dataCadastro" class="form-label">Data Cadastro</label>
+                        <input formControlName="dataCadastro" type="date" class="form-control" id="dataCadastro">
+                    </div>
+
+                    <div class="col-12">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                            <button class="btn btn-primary me-md-2" type="submit"><i
+                                    class="fa fa-save"></i>&nbsp;Gravar</button>
+                            <button class="btn btn-secondary" type="button" (click)="voltar()"><i
+                                    class="fa fa-undo"></i>&nbsp;Voltar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="animate__animated animate__fadeIn" style="margin-top: 10px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-table" style="padding-right: 5px;"></i>Arquivos do Cliente
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div [formGroup]="formularioArquivo" class="col-sm-10">
+                            <div class="controls">
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input formControlName="descricao" type="text" id="id" class="form-control"
+                                        placeholder="Pesquisar..." autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                                <app-file-upload (onUpload)="upload($event)" [extensions]="'.jpg,.jpeg,.png,.pdf'">
+                                </app-file-upload>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table datatable class="table table-sm table-striped table-hover" style="margin-top: 10px;">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Data Envio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of arquivos?.content" scope="row">
+                                    <td class="d-grid gap-2 d-md-flex justify-content-md-start">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            (click)="visualizarArquivo(item)" popover="Visualizar"
+                                            triggers="mouseenter:mouseleave"><span class="fa fa-eye"></span></button>
+                                        <button type="button" class="btn btn-warning btn-sm"
+                                            (click)="download(item)" popover="Download"
+                                            triggers="mouseenter:mouseleave"><span
+                                                class="fa fa-download"></span></button>
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            (click)="apagarArquivo(item.id)" popover="Excluir"
+                                            triggers="mouseenter:mouseleave"><span class="fa fa-trash"></span></button>
+                                    </td>
+                                    <td [innerHTML]="item.nome| highlight: formularioArquivo.get('descricao').value">
+                                    <td [innerHTML]="item.dataCadastro | date:'dd/MM/yyyy'">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <pagination class="pagination-sm" [boundaryLinks]=true [firstText]="'&laquo;'"
+                                [lastText]="'&raquo;'" [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
+                                [totalItems]="arquivos?.totalElements" [itemsPerPage]="arquivos?.size" [maxSize]="10"
+                                (pageChanged)="pageChanged($event)">
+                            </pagination>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

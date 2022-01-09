@@ -1,0 +1,79 @@
+<div class="animate__animated animate__fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-table" style="padding-right: 5px;"></i>Lista de Clientes
+                </div>
+                <div class="card-body" *ngIf="!hasErro">
+                    <div class="row">
+                        <div [formGroup]="formulario" class="col-sm-10">
+                            <div class="controls">
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input formControlName="descricao" type="text" id="id" class="form-control"
+                                        placeholder="Pesquisar por código ibge / município" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                                <button type="submit" class="btn btn-primary" routerLink="./novo">
+                                    <i class="fa fa-plus"></i>&nbsp;Adicionar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table datatable class="table table-sm table-striped table-hover" style="margin-top: 10px;">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ações</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">CNPJ</th>
+                                    <th scope="col">Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of clientes?.content" scope="row">
+                                    <td class="d-grid gap-2 d-md-flex justify-content-md-start"><button type="button"
+                                            class="btn btn-primary btn-sm" (click)="acessar(item.id)" popover="Editar"
+                                            triggers="mouseenter:mouseleave"><span class="fa fa-edit"></span></button>
+                                        <button type="button" class="btn btn-danger btn-sm" (click)="apagar(item.id)"
+                                            popover="Excluir" triggers="mouseenter:mouseleave"><span
+                                                class="fa fa-trash"></span></button>
+                                    </td>
+                                    <td [innerHTML]="item.nomeEmpresa| highlight: formulario.get('descricao').value">
+                                    </td>
+                                    <td
+                                        [innerHTML]="item.cnpj | highlight: formulario.get('descricao').value | cpfCnpj">
+                                    </td>
+                                    <td [innerHTML]="item.dataCadastro | date:'dd/MM/yyyy'">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <pagination class="pagination-sm" [boundaryLinks]=true [firstText]="'&laquo;'"
+                                [lastText]="'&raquo;'" [previousText]="'&lsaquo;'" [nextText]="'&rsaquo;'"
+                                [totalItems]="clientes?.totalElements" [itemsPerPage]="clientes?.size" [maxSize]="10"
+                                (pageChanged)="pageChanged($event)">
+                            </pagination>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="hasErro">
+                    <alert type="danger">
+                        <h4 class="alert-heading">Opss!</h4>
+                        <br>Erro ao estabelecer conexão com o servidor, tente novamente em alguns instantes.
+                        <br>
+                        <button type="button" class="btn btn-danger" style="margin-top: 20px;"
+                            (click)="listarClientes()">
+                            <i class="fa fa-refresh"></i>&nbsp;Recarregar
+                        </button>
+                    </alert>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
