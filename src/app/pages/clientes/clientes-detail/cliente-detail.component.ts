@@ -59,7 +59,7 @@ export class ClienteDetailComponent implements OnInit {
       id: [null, []],
       nomeEmpresa: [null, [Validators.required]],
       cnpj: [null, [Validators.required ]],
-      dataCadastro: [new Date().toISOString().split("T")[0]],
+      dataCadastro: [new Date().toISOString().split("T")[0],[Validators.required ]],
     });
   }
 
