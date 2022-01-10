@@ -4,8 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:prod": "ng build --configuration production --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress",
+    "build": "ng build --configuration production --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress",    
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "heroku-postbuild": "node server.js" 
